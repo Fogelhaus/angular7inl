@@ -1,3 +1,95 @@
-<p>
-  register works!
-</p>
+<div class="container">
+  <form [formGroup]="registerForm" (ngSubmit)="register()"" id=" register-form">
+    <div id="personal-info-group">
+      <h4>Personlig information</h4>
+      <div id="name-group">
+        <label for="first-name">Namn</label>
+        <input formControlName="firstname" type="text" name="firstname" id="firstname" placeholder="Förnamn"
+          [ngClass]="{ 'is-invalid': submitted && formControls.firstname.errors }">
+        <div *ngIf="submitted && formControls.firstname.errors" class="invalid-feedback">
+          <div *ngIf="formControls.firstname.errors.required">
+            Fyll i ett förnamn
+          </div>
+          <input formControlName="lastname" type="text" name="lastname" id="lastname"
+            placeholder="Efternamn"  [ngClass]="{ 'is-invalid': submitted && formControls.lastname.errors }" />
+          <div *ngIf="submitted && formControls.lastname.errors" class="invalid-feedback">
+<div *ngIf="formControls.lastname.errors.required">Fyll i ett efternamn</div>
+        </div>
+        <div id="birth-group">
+          <label for="dob">Födelsedatum: </label>
+          <input formControlName="dob" type="date" name="dob" id="dob" placeholder="YYYYMMDD"
+          [ngClass]="{ 'is-invalid': submitted && formControls.dob.errors }" />
+          <div *ngIf="submitted && formControls.dob.errors" class="invalid-feedback">
+<div *ngIf="formControls.dob.errors.required">Fyll i Födelsedatum</div>
+        </div>
+      </div>
+      <hr>
+      <div id="login-info-group">
+        <h4>Kontoinformation</h4>
+        <div id="email-group">
+          <label for="email">E-postadress:</label>
+          <input formControlName="email" type="email" name="email" id="email" placeholder="E-post"
+            [ngClass]="{ 'is-invalid': submitted && formControls.email.errors }" />
+          <div *ngIf="submitted && formControls.email.errors" class="invalid-feedback">
+<div *ngIf="formControls.email.errors.required">Fyll i din e-postadress</div>
+        </div>
+        <div id="password-group">
+          <label for="password">Lösenord:</label>
+          <input formControlName="password" type="password" name="password" id="password"placeholder="Lösenord"
+          [ngClass]="{ 'is-invalid': submitted && formControls.password.errors }" />
+        <div *ngIf="submitted && formControls.password.errors" class="invalid-feedback">
+<div *ngIf="formControls.password.errors.required">Välj ett lösenord</div>
+        </div>
+      </div>
+      <hr>
+      <div id="address-info-group">
+        <div id="billing-group">
+          <h4>Postadress</h4>
+          <label for="billing-address">Adress:</label>
+          <input formControlName="addressline" type="text" name="addressline" id="addressline"placeholder="Adress"
+          [ngClass]="{ 'is-invalid': submitted && formControls.addressline.errors }" />
+        <div *ngIf="submitted && formControls.addressline.errors" class="invalid-feedback">
+<div *ngIf="formControls.addressline.errors.required">Fyll i en gatuadress</div>
+          <label for="billing-postal-number">Postnummer:</label>
+          <input formControlName="zipcode" type="text" name="zipcode"
+            id="zipcode"placeholder="Postnummer"
+            [ngClass]="{ 'is-invalid': submitted && formControls.zipcode.errors }" />
+          <div *ngIf="submitted && formControls.zipcode.errors" class="invalid-feedback">
+<div *ngIf="formControls.zipcode.errors.required">Fyll i ett postnummer</div>
+          <label for="billing-city">Stad:</label>
+          <input formControlName="city" type="text" name="city" id="city" placeholder="Stad"
+          [ngClass]="{ 'is-invalid': submitted && formControls.city.errors }" />
+        <div *ngIf="submitted && formControls.city.errors" class="invalid-feedback">
+<div *ngIf="formControls.city.errors.required">Fyll i stad</div>
+          <label for="billing-country">Land:</label>
+          <input formControlName="country" type="text" name="country" id="country" placeholder="Land"
+          [ngClass]="{ 'is-invalid': submitted && formControls.country.errors }" />
+        <div *ngIf="submitted && formControls.country.errors" class="invalid-feedback">
+<div *ngIf="formControls.country.errors.required">Fyll i land</div>
+        </div>
+        <div id="shipping-group">
+          <h4>Faktureringsadress</h4>
+          <div id="same-address-container">
+            <input type="checkbox" name="same" id="same" (change)="cloneBillingAddress()">
+            <label for="same" class="inline"> Använd postadressen som faktureringsadress</label>
+          </div>
+          <label for="shipping-address">Adress:</label>
+          <input formControlName="shippingAddress" type="text" name="shipping-address" id="shipping-address">
+          <label for="shipping-postal-number">Postnummer:</label>
+          <input formControlName="shippingPostalNumber" type="text" name="shipping-postal-number"
+            id="shipping-postal-number">
+          <label for="shipping-city">Stad:</label>
+          <input formControlName="shippingCity" type="text" name="shipping-city" id="shipping-city">
+          <label for="shipping-country">Land:</label>
+          <input formControlName="shippingCountry" type="text" name="shipping-country" id="shipping-country">
+        </div>
+      </div>
+      <hr>
+      <div id="button-group">
+        <button [disabled]="loading" class="button light" type="submit" >Registrera</button>
+        <img *ngIf="loading" class="pl-3"
+            src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+
+      </div>
+  </form>
+</div>

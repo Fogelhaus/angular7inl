@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,44 +10,51 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  loginForm: any;
-  isSubmitted: boolean;
-incorrectCreds: boolean = false;
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) { }
+  loginForm: FormGroup;
+  submitted: boolean = false;
+loading: boolean = false 
+
+  constructor(private authService: AuthService, private router: Router, private formBuilder: FormBuilder, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      'email': ['', Validators.required],
-      'password': ['', Validators.required]
-    })
+      email: ['', Validators.required],
+      password: ['', Validators.required]
+    });
 
-    if( this.authService.isLoggedIn() ) {
-      this.router.navigateByUrl("/profile");
-    }
+    
   }
 
+  get formControls() { return this.loginForm.controls }
+
   login() {
-    this.isSubmitted = true;
+    this.submitted = true;
 
     if(this.loginForm.invalid) {
       return;
     }
 
-    this.authService.login(this.loginForm.value)
-      .subscribe((res) => {
-        localStorage.setItem("ACCESS_TOKEN", res["token"]);
-        localStorage.setItem("USER_ID", res["id"]);
-        localStorage.setItem("USER_EMAIL", res["email"]);
+    this.loading = true;
 
-        if(res["success"]) {
-          this.router.navigateByUrl('/profile'); 
-        }
-      },(error) => {
-        this.incorrectCreds = true;
-      })  
+    this.authService.login(this.loginForm.value)
+    .subscribe(
+      res => {
+            localStorage.setItem('currentUser', JSON.stringify(res));
+            localStorage.setItem("ACCESS_TOKEN", res["token"]);
+            localStorage.setItem('USER_ID', res['id'])
+            this.authService.CurrentUserFirstnameSubject.next(res['firstname']);
+            this.authService.CurrentUserLastnameSubject.next(res['lastname']);
+            
+
+            this.router.navigateByUrl('/account');
+            
+      },
+      error => {
+          this.loading = false;
+      });
+    
     
 
   }
-
 
 }

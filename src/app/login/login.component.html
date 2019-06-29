@@ -1,20 +1,23 @@
 <div class="col 6">
-  <form [formGroup]="loginForm" (submit)="login()" id="login-form">
-    <img src="../../../assets/angular.svg" alt="">
-    <div id="email-group" class="login-form-group">
-        <label for="email">E-postadress</label>
-        <input formControlName="email" type="email" name="email" id="email">
-    </div>
-    <div id="password-group" class="login-form-group">
-        <label for="password">Lösenord</label>
-        <input formControlName="password" type="password" name="password" id="password">
-    </div>
-    <div id="button-group">
-      <button class="button dark" type="submit" [disabled]="!loginForm.valid">Logga in</button>
-      <div>
-        Inte medlem? Registerera dig <a class="link-default" routerLink="/register">här</a>!
-        <div *ngIf="incorrectCreds" class="warning">Du har angett fel e-postadress eller lösenord.</div>
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <div class="form-group">
+      <input type="text" formControlName="email" class="form-control" placeholder="E-mail"
+        [ngClass]="{ 'is-invalid': submitted && formControls.email.errors }" />
+      <div *ngIf="submitted && formControls.email.errors" class="invalid-feedback">
+        <div *ngIf="formControls.email.errors.required">Fyll i e-mail</div>
       </div>
     </div>
+    <div class="form-group">
+      <input type="password" formControlName="password" class="form-control" placeholder="Lösenord"
+        [ngClass]="{ 'is-invalid': submitted && formControls.password.errors }" />
+      <div *ngIf="submitted && formControls.password.errors" class="invalid-feedback">
+        <div *ngIf="formControls.password.errors.required">Fyll i lösenord</div>
+      </div>
+      <div class="form-group">
+        <button [disabled]="loading" type="submit" class="btn btn-light">Logga in</button>
+        <img *ngIf="loading" class="pl-3"
+          src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+        <a routerLink="/register" class="btn btn-outline-light ml-3">Registrera dig</a>
+      </div>
   </form>
 </div>
