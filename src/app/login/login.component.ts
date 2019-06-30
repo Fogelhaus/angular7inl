@@ -1,27 +1,30 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter,  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
+
+import { AlertService } from '../services/alert.service'
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
   submitted: boolean = false;
 loading: boolean = false 
 
-  constructor(private authService: AuthService, private router: Router, private formBuilder: FormBuilder, private route: ActivatedRoute) { }
+  constructor(private authService: AuthService, private alertService: AlertService, private router: Router, private formBuilder: FormBuilder, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.required],
       password: ['', Validators.required]
     });
-
+ 
     
   }
 
@@ -46,10 +49,12 @@ loading: boolean = false
             this.authService.CurrentUserLastnameSubject.next(res['lastname']);
             
 
-            this.router.navigateByUrl('/account');
+            this.router.navigateByUrl('/profile');
+            this.alertService.success('Login was successful', false)
             
       },
       error => {
+        this.alertService.error(error);
           this.loading = false;
       });
     

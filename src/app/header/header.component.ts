@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { User } from '../user';
-import {ProfileComponent} from '../profile/profile.component';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   selector: 'app-header',
@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit {
   currentUserLastname: any;
 users: User[] = [];
 
-constructor(private authService: AuthService, private router: Router) {
+constructor(private authService: AuthService, private router: Router, private alertService: AlertService) {
   
 
   this.authService.CurrentUserFirstname.subscribe(x => this.currentUserFirstname = x)
@@ -34,7 +34,7 @@ constructor(private authService: AuthService, private router: Router) {
 ngOnInit() {}
 logout() {
   this.authService.logout()
-  
+  this.alertService.success('Logged out')
 }
 
 }

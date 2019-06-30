@@ -4,13 +4,13 @@ export interface User {
     lastname: string;
     email: string;
     password: string;
-    birthDate: Date;
+    dob: Date;
+    addressline: string;
+    zipcode: string;
+    city: string;
+    country: string;
     billingAddress: string;
-    billingPostalNumber: string;
+    billingZipcode: string;
     billingCity: string;
     billingCountry: string;
-    shippingAddress: string;
-    shippingPostalNumber: string;
-    shippingCity: string;
-    shippingCountry: string;
 }

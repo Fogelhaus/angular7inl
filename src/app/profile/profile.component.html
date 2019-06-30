@@ -1,3 +1,24 @@
-<p>
-  profile works!
-</p>
+<div class="">
+
+    <ul class="list-group">
+        <li class="list-group-item"><span class="font-weight-light">E-mail: </span>{{ email }}</li>
+        <li class="list-group-item"><span class="font-weight-light">Namn: </span>{{ firstname }}  {{ lastname }}</li>
+        <li class="list-group-item"><span class="font-weight-light">Födelsedatum: </span >{{ dob | date }}</li>
+        <li class="list-group-item"><span class="font-weight-light">Adress: </span>{{ addressline }}</li>
+        <li class="list-group-item"><span class="font-weight-light">Postnummer: </span>{{ zipcode }}</li>
+        <li class="list-group-item"><span class="font-weight-light">Stad: </span>{{ city }}</li>
+        <li class="list-group-item"><span class="font-weight-light">Land: </span>{{ country }}</li>
+        <li class="list-group-item "><h5>Faktureringsadress:</h5></li>
+        <li class="list-group-item"><span class="font-weight-light">Adress: </span>{{ billingAddress }}</li>
+        <li class="list-group-item"><span class="font-weight-light">Postnummer: </span>{{ billingZipcode }}</li>
+        <li class="list-group-item"><span class="font-weight-light">Stad: </span>{{ billingCity }}</li>
+        <li class="list-group-item"><span class="font-weight-light">Land: </span>{{ billingCountry }}</li>
+    
+        <li class="list-group-item"><a routerLink="/change" routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact: true}" class="btn btn-light btn-block">Ändra dina kontouppgifter </a>
+        </li>
+        <li class="list-group-item"><button class="btn btn-light btn-block" (click)="delete()">Ta bort kontot </button></li>
+        
+</ul>
+
+</div>
